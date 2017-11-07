@@ -1,0 +1,1 @@
+Header set Content-Security-Policy " default-src 'none'; script-src 'self' fonts.googleapis.com; connect-src 'self'; img-src 'self'; style-src 'self' fonts.googleapis.com; font-src 'self' fonts.gstatic.com"

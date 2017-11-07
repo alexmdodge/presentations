@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title> Refactor the Builder </title>
+    <link href="../slides.css" rel="stylesheet" type="text/css">
+    <link href="./index.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../favicon.png">
+  </head>
+
+  <body class="main">
+    <div class="slide__header">
+      <h1 class="slide__title"> 
+        <span class="over-title">
+          Refactor the Builder
+        </span>
+        <span class="under-title">
+          Refactor the Builder
+        </span>
+      </h1>
+    </div>
+
+    <div class="slide__content">
+      <p class="slide__description">
+        Let's change it around so we can pass it a class or id name
+        of our choice.
+      </p>
+
+      <img src="./09-regular.png" alt="Regular Object" class="slide__image">
+      <div class="btn__container">
+        <div class="btn submit">
+          Submit
+        </div>
+      </div>
+
+      <p class="slide__description">
+        Then with arrow functions,
+      </p>
+      <img src="./09-arrow.png" alt="Arrow Function Object" class="slide__image">
+      <div class="btn__container">
+        <div class="btn reset">
+          Reset
+        </div>
+      </div>
+
+      <p class="slide__description">
+        If we change the method to use a regular function expression,
+      </p>
+      <img src="./09-refactor.png" alt="Refactor Object" class="slide__image">
+      <div class="btn__container">
+        <div class="btn clear">
+          Clear
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="pagination">
+        <div class="pagination__prev">
+          <a href="../08" class="pagination__icon-prev"></a>
+          <span class="pagination__title title__left">
+            Different <i>this</i>
+          </span>
+        </div>
+        <div class="pagination__next">
+          <a href="../10" class="pagination__icon-next"></a>
+          <span class="pagination__title title__right">
+            No New
+          </span>
+        </div>
+        <p class="pagination__count">
+          9 / 18
+        </p>
+      </div>
+    <script src="./index.js"></script>
+  </body>
+</html>
