@@ -1,12 +1,14 @@
 var cat = {
-  height: '32cm',
+  height: {
+    metric: '50cm'
+  },
   length: '59cm',
   type: 'tabby'
 };
 
 Object.freeze(cat);
 
-cat.height = '20cm';
+cat.height.metric = '20cm';
 cat;
 
 var dog = {
