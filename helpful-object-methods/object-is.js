@@ -8,10 +8,10 @@ class Dog {
 
 var winston = new Dog('Winston');
 var winston2 = new Dog('Winston');
-var anotherWinston = winston2;
+var another = winston;
 var rufus = new Dog('Rufus');
 
-result = Object.is(winston, anotherWinston);
+result = Object.is(winston, rufus);
 result;
 
 result = -0 === +0;
@@ -19,3 +19,9 @@ result;
 
 result = Object.is(-0, +0);
 result;
+
+result = Object.is(1, 4);
+result;
+
+var sum = 1+ 1;
+sum;

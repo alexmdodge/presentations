@@ -1,14 +1,15 @@
 var cat = {
-  height: {
-    metric: '50cm'
+  metric: {
+    height: '30cm',
   },
   length: '59cm',
   type: 'tabby'
 };
 
 Object.freeze(cat);
+// only shallow
 
-cat.height.metric = '20cm';
+cat.metric.height = '20cm';
 cat;
 
 var dog = {
