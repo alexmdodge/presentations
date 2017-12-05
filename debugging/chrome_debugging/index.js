@@ -11,6 +11,8 @@ var pets = {
     }
 }
 
+pets.dog.name = 'woof';
+
 // Array of pets we own
 var petTypes = Object.keys(pets);
 
@@ -19,17 +21,16 @@ var listContainer = document.createElement('ui');
 
 // We'll loop through our list and output the
 // names of each of our pets
-var petList = petTypes.map((pet) => {
+var petList = petTypes.forEach((pet) => {
     var petLabel = document.createElement('li');
     petLabel.innerHTML = pet;
 
     petLabel.addEventListener('click', () => {
-        var name = pets[pet].names;
-        console.log('This is my ${pet} ${name}!');
+        var name = pets[pet].name;
+        console.log(`This is my ${pet} ${name}!`);
     });
 
-    return petLabel;
+    listContainer.appendChild(petLabel)
 });
 
-listContainer.appendChild(petList)
 document.querySelector('body').appendChild(listContainer);

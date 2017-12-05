@@ -9,12 +9,11 @@ var animals = {
     }
 }
 
-// Console log happens asyncronously
+// Console log references shallow copy
 console.log('Original animals: ', animals);
 
 // This changes before the log looks at the object reference
 animals.dog.name = 'growl';
-
 
 // It's best to use primitive values or keep state immutable
 console.log('Changed animals: ', animals);
