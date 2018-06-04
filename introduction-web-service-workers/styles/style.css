@@ -1,0 +1,10 @@
+body > * {
+    font-family: 'Roboto', sans-serif;
+}
+
+.filter-result {
+    width: 50vw;
+    height: 400px;
+    background-color: lightgrey;
+    border: 5px solid darkslategrey;
+}

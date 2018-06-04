@@ -1,0 +1,25 @@
+{
+  "name": "introduction-web-service-workers",
+  "version": "1.0.0",
+  "description": "Introduction to Web and Service Workers",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:alexmdodge/presentations.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --watch --mode=development & http-server . -p 4000"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "axios": "0.18.0",
+    "cors": "2.8.4",
+    "express": "4.16.3",
+    "faker": "4.1.0",
+    "http-server": "0.11.1",
+    "webpack": "4.10.2",
+    "webpack-cli": "3.0.1"
+  }
+}
