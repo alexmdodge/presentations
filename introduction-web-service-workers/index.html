@@ -11,48 +11,17 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
 </head>
 <body>
-    <div class='indicator indicator-on'>
-        <h1>
+    <div class='indicator'>
+        <h3>
             Loading
-        </h1>
+        </h3>
     </div>
     <section class="app">
         <h1 class="title">
             Web and Service Workers
         </h1>
         <section class="filter-controls">
-            <section class="filter-input-container">
-                <label for="filter-input">
-                    Filter by text:
-                </label>
-                <input type="text" id="filter-input" class="filter-input">
-            </section>
-            <section class="filter-radios">
-                <span> Filter Categories: </span>
-                <input 
-                    type="radio"
-                    name="filter-categories"
-                    id="country"
-                    value="country"
-                    checked
-                >
-                <label for="country">Country</label>
-                <input
-                    type="radio"
-                    name="filter-categories"
-                    id="name"
-                    value="name"
-                >
-                <label for="name">Name</label>
-            </section>
-            <section>
-                <button class="sort-btn sort-worker">
-                    Sort With Worker
-                </button>
-                <button class="sort-btn sort-local">
-                    Sort With Local
-                </button>
-            </section>
+
             <section>
                 <button class="load-btn load-worker">
                     Load With Worker
@@ -61,21 +30,28 @@
                     Load With Local
                 </button>
             </section>
+
+            <section>
+                <button class="sort-btn sort-worker">
+                    Sort With Worker
+                </button>
+                <button class="sort-btn sort-local">
+                    Sort With Local
+                </button>
+            </section>
+
             <section>
                 <button class="filter-btn render">
                     Render
                 </button>
                 <button class="filter-btn reset">
-                    Reset
-                </button>
-                <button class="filter-btn apply">
-                    Apply Filter
+                    Clear
                 </button>
             </section>
+
         </section>
-        <div class="filter-result">
-            
-        </div>
+
+        <div class="result"></div>
     </section>
 
     <script src="./dist/main.js"></script>

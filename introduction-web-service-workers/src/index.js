@@ -1,10 +1,50 @@
 import { getClientDataLocal } from './local-client-fetch.js';
 import { getSortedClients } from './local-sort.js';
 
-var filterCategories = document.getElementsByName('filter-categories');
-var filterKeyInput = document.querySelector('.filter-input');
-var resultField = document.querySelector('.filter-result');
-var filterBtn = document.querySelector('.apply');
+var clients = [];
+var activeClients = clients;
+
+// Setup Web Workers
+var dataWorker = new Worker('/src/data-web-worker.js');
+var sortWorker = new Worker('/src/sort-web-worker.js');
+
+function getClientDataWorker() {
+    console.log('Starting Data Fetch');
+    toggleLoading();
+
+    dataWorker.postMessage({
+        url: 'http://localhost:4000/clients',
+    });
+}
+
+function sortClientsWorker() {
+    console.log('Starting sort');
+    toggleLoading();
+
+    sortWorker.postMessage({
+        clients: clients
+    });
+}
+
+dataWorker.onmessage = function(response) {
+    console.log('Done Data Fetch');
+    toggleLoading();
+
+    clients = response.data;
+    activeClients = clients;
+};
+
+sortWorker.onmessage = function(response) {
+    console.log('Done sorting');
+    toggleLoading();
+
+    activeClients = response.data;
+}
+
+var resultField = document.querySelector('.result');
+var indicator = document.querySelector('.indicator');
+
+var renderBtn = document.querySelector('.render');
 var resetBtn = document.querySelector('.reset');
 
 var workerStartBtn = document.querySelector('.load-worker');
@@ -13,78 +53,55 @@ var localStartBtn = document.querySelector('.load-local');
 var workerSortBtn = document.querySelector('.sort-worker');
 var localSortBtn = document.querySelector('.sort-local');
 
-var clients = [];
-var activeClients = clients;
+resetBtn.addEventListener('click', function(event) {
+    clear();
+    var clients = [];
+    var activeClients = clients;
+});
 
-// Setup Web Workers
-var filterWorker = new Worker('/src/filter-web-worker.js');
-var dataWorker = new Worker('/src/data-web-worker.js');
-var sortWorker = new Worker('/src/sort-web-worker.js');
+workerStartBtn.addEventListener('click', function(event) {
+    getClientDataWorker();
+});
 
-// Functions that utilize postMessage and onmessage
-function filterClientData() {
-    var filterKey = filterKeyInput.value;
-    var filterCategory;
-
-    for (let i = 0; i < filterCategories.length; i++) {
-        var category = filterCategories[i];
-        
-        if (category.checked) {
-            filterCategory = category.value;
-        }
-    }
-
-    console.log('Starting Filtering');
-
-    filterWorker.postMessage({
-        clients: clients,
-        filter: {
-            by: filterCategory,
-            key: filterKey,
-        }
+localStartBtn.addEventListener('click', function(event) {
+    toggleLoading();
+    getClientDataLocal('http://localhost:4000/clients', function(newClients) {
+        clients = newClients;
+        activeClients = clients;
+        toggleLoading();
     });
+});
+
+workerSortBtn.addEventListener('click', function(event) {
+    sortClientsWorker();
+});
+
+localSortBtn.addEventListener('click', function(event) {
+    clients = getSortedClients(clients);
+    console.log('Done sorting clients');
+    toggleLoading();
+});
+
+renderBtn.addEventListener('click', function(event) {
+    toggleLoading();
+    renderClientList();
+    toggleLoading();
+});
+
+// Helpers
+
+function toggleLoading() {
+    indicator.classList.toggle('indicator-on');
 }
 
-function getClientData() {
-    console.log('Starting Data Fetch');
-    
-    dataWorker.postMessage({
-        url: 'http://localhost:4000/clients',
-    });
-}
-
-function sortMostOwed() {
-    sortWorker.postMessage({
-        clients: clients
-    });
-}
-
-dataWorker.onmessage = function(response) {
-    console.log('Done Data Fetch');
-    
-    clients = response.data;
-    filterClientData();
-};
-
-filterWorker.onmessage = function(response) {
-    console.log('Done Filtering');
-    
-    activeClients = response.data;
-};
-
-sortWorker.onmessage = function(response) {
-    console.log('Done sorting');
-
-    activeClients = response.data;
-}
-
-// DOM rendering helpers
-function renderClientList() {
-    console.log('Starting to render client list');
-
+function clear() {
     while (resultField.firstChild) {
         resultField.removeChild(resultField.firstChild);
     }
+}
+
+function renderClientList() {
+    toggleLoading();
     
     activeClients.forEach(function(client) {
         var clientHtml = `
@@ -103,31 +120,6 @@ function renderClientList() {
     });
 
     setTimeout(function() {
-        console.log('Done rendering client list');
+        toggleLoading();
     }, 0);
 }
-
-resetBtn.addEventListener('click', function(event) {
-    activeClients = clients;
-    renderClientList();
-});
-
-filterBtn.addEventListener('click', function(event) {
-    filterClientData();
-});
-
-workerStartBtn.addEventListener('click', function(event) {
-    getClientData();
-});
-
-localStartBtn.addEventListener('click', function(event) {
-    getClientDataLocal('http://localhost:4000/clients', function(newClients) {
-        console.log('Using local function');
-        clients = newClients;
-        filterClientData();
-    });
-});
-
-workerSortBtn.addEventListener('click', function(event) {
-    sortMostOwed();
-});
