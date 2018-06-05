@@ -1,15 +1,16 @@
 function getFilteredClientList(clients, filter) {
     var filterBy = filter.by;
-    var filterKey = filter.key;
+    var filterKey = filter.key.toLowerCase();
 
     return clients.filter(client => {
         var clientField = client[filterBy];
-        return clientField.indexOf(filterKey > -1);
-    })
+        var lowerCaseField = clientField.toLowerCase();
+        return lowerCaseField.indexOf(filterKey) > -1;
+    });
 }
 
 onmessage = function (event) {
-    console.log('Message received from main script');
+    console.log('Filtering message received from main script.');
     var clients = event.data.clients;
     var filter = event.data.filter;
 

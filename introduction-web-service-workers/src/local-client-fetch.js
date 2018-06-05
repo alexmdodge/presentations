@@ -31,16 +31,15 @@ function extractData(clients) {
     return trimmedClients;
 }
 
-onmessage = function (event) {
-    var requestUrl = event.data.url;
+export function getClientDataLocal(url, fn) {
+    var requestUrl = url;
       
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             var response = JSON.parse(this.responseText);
             var clients = extractData(response.clients);
-            postMessage(clients);
-            close();
+            fn(clients);
         }
     }
     xhr.open('GET', requestUrl);
