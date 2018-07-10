@@ -20,7 +20,7 @@ function getRandomPurchases() {
 app.get('/clients', function(req, res) {
     let clientsData = [];
 
-    for (let i = 0; i < 10000; i++) {
+    for (let i = 0; i < 1000; i++) {
         clientsData.push({
             name: faker.company.companyName(),
             postalCode: faker.address.zipCode(),

@@ -34,6 +34,7 @@ function extractData(clients) {
 onmessage = function (event) {
     var requestUrl = event.data.url;
       
+    // Retrieve the client data
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {

@@ -1,3 +1,7 @@
+html {
+    font-size: 16px;
+}
+
 body > * {
     font-family: 'Roboto', sans-serif;
     box-sizing: border-box;
@@ -6,14 +10,20 @@ body > * {
 .indicator {
     background-color: white;
     color: white;
-    width: 100%;
-    height: 30px;
+    height: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 0.2rem;
+    margin-bottom: 0;
+    font-size: 0;
+    text-transform: uppercase;
 }
 
 .indicator-on {
+    margin-bottom: 1rem;
+    height: 3rem;
+    font-size: 1.5rem;
     background-color: lightcoral;
     color: #333;
 }
@@ -26,17 +36,22 @@ body > * {
 }
 
 .title {
-    font-size: 30px;
+    color: #333;
+    background-color: #ccc;
+    font-size: 2.5rem;
     text-transform: uppercase;
+    font-weight: bold;
+    padding: 1rem;
+    border-radius: 0.2rem;
+    margin: 1rem 0 0 0;
 }
 
 .result {
     width: 100%;
-    height: 400px;
+    height: 300px;
     background-color: lightgrey;
-    border: 5px solid darkslategrey;
-    border-radius: 3px;
-    margin-top: 20px;
+    border-radius: 0.2rem;
+    margin: 0;
     padding: 20px;
 
     display: flex;
@@ -49,7 +64,7 @@ body > * {
 
 .client-item {
     color: #fff;
-    background-color: darkslategray;
+    background-color: rgb(90, 101, 112);
     padding: 20px;
     margin-bottom: 5px;
     border-radius: 3px;
@@ -57,75 +72,40 @@ body > * {
     width: 100%;
 }
 
+.btn {
+    padding: 0.8rem;
+    margin: 0.5rem 0.2rem;
+    font-weight: bold;
+    border-radius: 0.2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    border: 0px;
+}
+
 .filter-btn {
-    padding: 5px;
-    margin: 5px 2px;;
-    background-color: slategray;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-
-.sort-btn {
-    padding: 5px;
-    margin: 5px 2px;;
-    background-color: rgb(255, 221, 226);
-    color: #fff;
-    font-weight: bold;
-    border-radius: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-
-.load-btn {
-    padding: 5px;
-    margin: 5px 2px;;
-    background-color: lightsteelblue;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-
-.sort-btn:active,
-.sort-btn:hover {
-    background-color: lightcoral;
-}
-
-.load-btn:active,
-.load-btn:hover {
-    background-color: steelblue;
+    background-color: rgb(115, 129, 143);
 }
 
 .filter-btn:active,
 .filter-btn:hover {
-    background-color: darkslategray;
+    background-color: rgb(90, 101, 112);
 }
 
-.filter-input-container {
-    margin-left: 10px;
+.load-btn {
+    background-color: rgb(97, 144, 182);
 }
 
-.filter-input-container > label {
-    font-weight: bold;
-    text-transform: uppercase;
+.load-btn:active,
+.load-btn:hover {
+    background-color: rgb(57, 122, 175);
 }
 
-.filter-input {
-    font-size: 14px;
-    padding: 10px;
-    margin: 10px;
-    width: 200px;
-}
-
-.filter-radios {
-    margin: 10px;
-}
-
-.filter-radios > span {
-    font-weight: bold;
-    text-transform: uppercase;
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
 }

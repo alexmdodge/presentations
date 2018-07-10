@@ -7,44 +7,37 @@
 
     <title>Workers Introduction</title>
 
-    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
 </head>
 <body>
-    <div class='indicator'>
-        <h3>
-            Loading
-        </h3>
-    </div>
     <section class="app">
+        <div class='indicator'>
+            <h3>
+                Loading
+            </h3>
+        </div>
         <h1 class="title">
             Web and Service Workers
         </h1>
-        <section class="filter-controls">
+        <section class="controls">
 
             <section>
-                <button class="load-btn load-worker">
+                <button class="load-btn load-worker btn">
                     Load With Worker
                 </button>
-                <button class="load-btn load-local">
+                <button class="load-btn load-local btn">
                     Load With Local
                 </button>
             </section>
 
             <section>
-                <button class="sort-btn sort-worker">
-                    Sort With Worker
-                </button>
-                <button class="sort-btn sort-local">
-                    Sort With Local
-                </button>
-            </section>
-
-            <section>
-                <button class="filter-btn render">
+                <button class="filter-btn render btn">
                     Render
                 </button>
-                <button class="filter-btn reset">
+                <button class="filter-btn reset btn">
                     Clear
                 </button>
             </section>
@@ -54,6 +47,6 @@
         <div class="result"></div>
     </section>
 
-    <script src="./dist/main.js"></script>
+    <script src="/dist/main.js"></script>
 </body>
 </html>
