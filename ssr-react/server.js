@@ -13,13 +13,13 @@ app.prepare()
 
         // Enable dynamic page routing
 
-        // server.get(`/page/:id`, (req, res) => {
-        //     const actualPage = `/page`;
-        //     const queryParams = {
-        //         id: `page-${req.params.id}`,
-        //     };
-        //     app.render(req, res, actualPage, queryParams);
-        // });
+        server.get(`/page/:id`, (req, res) => {
+            const actualPage = `/page`;
+            const queryParams = {
+                id: `page-${req.params.id}`,
+            };
+            app.render(req, res, actualPage, queryParams);
+        });
 
         server.get('*', (req, res) => {
             return handle(req, res);

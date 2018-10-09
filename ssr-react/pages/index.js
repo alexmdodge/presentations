@@ -31,12 +31,12 @@ const Home = (props) => {
     );
 }
 
-// Home.getInitialProps = async function () {
-//     const result = await axios.get('https://dog.ceo/api/breeds/image/random');
+Home.getInitialProps = async function () {
+    const result = await axios.get('https://dog.ceo/api/breeds/image/random');
 
-//     return {
-//         dog: result.data.message,
-//     };
-// }
+    return {
+        dog: result.data.message,
+    };
+}
 
 export default Home;
