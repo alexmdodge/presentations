@@ -9,9 +9,10 @@ const Home = (props) => {
     
     return (
         <Layout>
-            <h1> Test Page </h1>
+            <h1> Dogs are Great </h1>
             <h4>
-                This is the home page of a Next Application.
+                Let's show them off using a Next Application.
+                Here's a random dog for your viewing pleasure.
             </h4>
 
             <Image src={props.dog}/>

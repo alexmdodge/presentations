@@ -5,7 +5,7 @@ const About = () => {
     return (
         <Layout>
             <h1>About</h1>
-            <h3>This is a page about someone!</h3>
+            <h3>Dogs are great!</h3>
 
             <footer>
                 <StyledLink href="/">
