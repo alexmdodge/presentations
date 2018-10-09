@@ -1,8 +1,7 @@
+import axios from 'axios'
+import Image from '../components/Image';
 import Layout from '../components/Layout';
 import StyledLink from '../components/StyledLink';
-import Image from '../components/Image';
-
-import axios from 'axios'
 
 const Home = (props) => {
     const randomNum = Math.floor(Math.random() * 20);
@@ -32,12 +31,12 @@ const Home = (props) => {
     );
 }
 
-Home.getInitialProps = async function () {
-    const result = await axios.get('https://dog.ceo/api/breeds/image/random');
+// Home.getInitialProps = async function () {
+//     const result = await axios.get('https://dog.ceo/api/breeds/image/random');
 
-    return {
-        dog: result.data.message,
-    };
-}
+//     return {
+//         dog: result.data.message,
+//     };
+// }
 
 export default Home;
