@@ -11,14 +11,12 @@ app.prepare()
     .then(() => {
         const server = express();
 
-        // We can set custom end points to handle dynamic data
-
-        server.get('/page/:id', (req, res) => {
-            const actualPage = '/page'
+        server.get(`/page/:id`, (req, res) => {
+            const actualPage = `/page`;
             const queryParams = {
                 id: `page-${req.params.id}`,
-            }
-            app.render(req, res, actualPage, queryParams)
+            };
+            app.render(req, res, actualPage, queryParams);
         });
 
         server.get('*', (req, res) => {
