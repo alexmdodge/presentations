@@ -10,16 +10,20 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1>
-            React Error Boundaries
-          </h1>
+        <GlobalErrorBoundary>
 
-          <BadComponentErrorBoundary>
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
             <BadComponent />
-          </BadComponentErrorBoundary>
-        </header>
+            <h1>
+              React Error Boundaries
+            </h1>
+
+            <BadComponentErrorBoundary>
+              <BadComponent />
+            </BadComponentErrorBoundary>
+          </header>
+        </GlobalErrorBoundary>
       </div>
     );
   }
