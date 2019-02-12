@@ -1,0 +1,17 @@
+{
+  "name": "ora-execa-async-await",
+  "version": "0.1.0",
+  "description": "Example presentation using Ora, Execa, and Async Await",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "execa": "1.0.0",
+    "fs-extra": "7.0.1",
+    "ora": "3.1.0"
+  }
+}
