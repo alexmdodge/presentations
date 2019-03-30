@@ -1,0 +1,3 @@
+rootProject.name = 'quicknotes'
+
+include ':app'

@@ -1,0 +1,20 @@
+.header {
+  list-style-type: none;
+  background-color: lightgray;
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.header li {
+  margin: 20px;
+}
+
+.app {
+  margin: 0 40px;
+}
+
+*:focus {
+  border: 1px solid red
+}
