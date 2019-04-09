@@ -1,0 +1,14 @@
+{
+  "name": "aws-appsync",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "mdx-deck aws-appsync.mdx"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mdx-deck": "2.0.6"
+  }
+}
