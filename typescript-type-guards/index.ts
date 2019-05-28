@@ -5,10 +5,18 @@ interface ComplexPlayData {
 
 type PlayData = string | ComplexPlayData;
 
+// Here the type guard can narrow our play data to determine
 function isComplexPlayData(data: PlayData): data is ComplexPlayData {
   return (data as ComplexPlayData).mediaId !== undefined;
 }
 
+// This is the simpler one to call in the case where we only have two types
+// to narrow between
+function isSimplePlayData(data: PlayData): data is string {
+  return typeof data === 'string';
+}
+
+// Our play call can accept either data formats now
 function play(data: PlayData) {
   let contentUrl: string;
 
@@ -25,6 +33,7 @@ function play(data: PlayData) {
   // startVideoPlayback(contentUrl);
 }
 
+// Here we demonstrate using either
 play('http://sample.com/myvideo.mp4');
 
 play({
