@@ -33,7 +33,7 @@ function play(data: PlayData) {
   // startVideoPlayback(contentUrl);
 }
 
-// Here we demonstrate using either
+// Here we demonstrate using eitherxb
 play('http://sample.com/myvideo.mp4');
 
 play({
