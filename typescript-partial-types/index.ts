@@ -1,42 +1,30 @@
-interface ComplexPlayData {
-  mediaId: string;
-  isLive: boolean;
+interface Todo {
+  title: string;
+  description: string;
+  reminders: TodoReminders;
 }
 
-type PlayData = string | ComplexPlayData;
-
-// Here the type guard can narrow our play data to determine
-function isComplexPlayData(data: PlayData): data is ComplexPlayData {
-  return (data as ComplexPlayData).mediaId !== undefined;
+interface TodoReminders {
+  remindTimes: Date[];
+  alarmSound: string;
 }
 
-// This is the simpler one to call in the case where we only have two types
-// to narrow between
-function isSimplePlayData(data: PlayData): data is string {
-  return typeof data === 'string';
+function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
+  return { ...todo, ...fieldsToUpdate };
 }
 
-// Our play call can accept either data formats now
-function play(data: PlayData) {
-  let contentUrl: string;
-
-  if (isComplexPlayData(data)) {
-    const { mediaId, isLive } = data
-
-    // Build a url from the complex data
-    contentUrl = `https://sample.com/${mediaId}.mp4?live=${isLive}`
-  } else {
-    // Use simple url to play
-    contentUrl = data
+const todo1: Todo = {
+  title: 'organize desk',
+  description: 'clear clutter',
+  reminders: {
+    remindTimes: [ new Date('2019-09-10'), new Date('2019-09-11') ],
+    alarmSound: 'bell'
   }
+};
 
-  // startVideoPlayback(contentUrl);
-}
-
-// Here we demonstrate using eitherxb
-play('http://sample.com/myvideo.mp4');
-
-play({
-  mediaId: '93999r9f9399399f9',
-  isLive: true,
+const todo2: Todo = updateTodo(todo1, {
+  description: 'throw out trash',
+  reminders: {
+    remindTimes: [ new Date('2019-09-11') ]
+  }
 });

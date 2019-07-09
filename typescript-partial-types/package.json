@@ -1,7 +1,7 @@
 {
   "name": "typescript-partial-types",
   "version": "1.0.0",
-  "description": "Sample typescript guards",
+  "description": "Sample typescript partial types",
   "main": "index.js",
   "scripts": {
     "start": "tsc index.ts"
