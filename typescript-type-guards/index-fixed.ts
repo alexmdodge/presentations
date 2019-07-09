@@ -1,3 +1,5 @@
+import { DeepPartial } from './deep-partial'
+
 interface Todo {
   title: string;
   description: string;
@@ -9,7 +11,7 @@ interface TodoReminders {
   alarmSound: string;
 }
 
-function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
+function updateTodo(todo: Todo, fieldsToUpdate: DeepPartial<Todo>) {
   return { ...todo, ...fieldsToUpdate };
 }
 

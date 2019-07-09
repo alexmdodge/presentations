@@ -1,0 +1,14 @@
+{
+  "name": "typescript-partial-types",
+  "version": "1.0.0",
+  "description": "Sample typescript guards",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "3.4.5"
+  }
+}
