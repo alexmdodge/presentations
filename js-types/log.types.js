@@ -25,6 +25,8 @@
 /**
  * Historical log entry which tracks the time when the log occurred, the
  * message associated with it, and the payload of data attached.
+ * 
+ * This type provides examples of both ways optional types can be specified
  * @typedef {Object<string, any>} LogHistoryEntry
  * @property {Date} timestamp
  * @property {string=} message

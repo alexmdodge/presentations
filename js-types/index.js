@@ -15,7 +15,7 @@
  * Configuration object which determines which levels of logs should
  * be output. If a log level is disabled it won't display, but may
  * still be tracked historically.
- * @typedef {Object<string, any>} FilterLevels
+ * @typedef {Object} FilterLevels
  * @property {boolean} LOG True when log messages should be output
  * @property {boolean} INFO True when info messages should be output
  * @property {boolean} DEBUG True when debug messages should be output
@@ -26,7 +26,7 @@
 /**
  * Logger configuration options which can be optionally passed on
  * the creation of the logger.
- * @typedef {Object<string, any>} LoggerOptions
+ * @typedef {Object} LoggerOptions
  * 
  * @property {boolean} trackHistory When true, all logs will be tracked
  * by timestamp in the history object.
@@ -38,10 +38,10 @@
 /**
  * Historical log entry which tracks the time when the log occurred, the
  * message associated with it, and the payload of data attached.
- * @typedef {Object<string, any>} LogHistoryEntry
- * @property {Date} timestamp
- * @property {string=} message
- * @property {{ [x: string]: any }} [data]
+ * @typedef {Object} LogHistoryEntry
+ * @property {number} timestamp
+ * @property {string} message
+ * @property {Object<string, any>} [data]
  */
 
 /**
@@ -51,10 +51,13 @@
  */
 
 export class Logger {
+  /**
+   * @param {LoggerOptions} options
+   */
   constructor(options) {
     /** @type {LoggerOptions} */
     const optionsDefaults = {
-      trackHistories: false,
+      trackHistory: false,
       filterLevels: {
         LOG: true,
         INFO: true,
@@ -75,11 +78,11 @@ export class Logger {
    * @param {LogPayload} payload
    */
   _trackHistory(payload) {
-    if (this.logOptions.trackHistory) {
+    if (this.loggerOptions.trackHistory) {
       /** @type {LogHistoryEntry} */
       const historyEntry = {
         timestamp: Date.now(),
-        message: payload.msg,
+        message: payload.message,
         data: payload.data
       }
 
@@ -96,11 +99,12 @@ export class Logger {
   /**
    * 
    * @param {string} msg 
-   * @param  {...any} data 
+   * @param {any[]} data 
    */
   log(msg, ...data) {
-    this._trackHistory({ msg, data })
+    this._trackHistory({ message: msg, data })
 
+    // The checkJS flag will pick up on the errors below
     if (this.logOptions.filterLevel.LOG) {
       console.log(...args)
     }
@@ -108,4 +112,3 @@ export class Logger {
 }
 
 const logger = new Logger()
-logger.log()
