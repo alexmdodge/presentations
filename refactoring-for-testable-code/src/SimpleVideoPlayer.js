@@ -2,19 +2,22 @@ import Hls from 'hls.js'
 
 class SimpleVideoPlayer {
   constructor(videoContainerElement, playerOptions = {}) {
-    // First we'll create the video element and attach
-    // it to the video container the implementor passes in
-    this._videoElement = document.createElement('video')
+    this._playerOptions = playerOptions
+    this._createPlayerVideoElement()
+    this._applyPlayerOptionsToVideoElement()
 
-    // Making sure here that we set the styles of the video
-    // element so they stretch to the width of the parent
-    // container
+    // Now we can attach the video element
+    this._videoContainerElement = videoContainerElement
+    this._videoContainerElement.appendChild(this._videoElement)
+  }
+
+  _createPlayerVideoElement() {
+    this._videoElement = document.createElement('video')
     this._videoElement.style.width = '100%'
     this._videoElement.style.height = '100%'
+  }
 
-    // We also need to append some attributes so the options
-    // the user passes in are applied to the video
-    this._playerOptions = playerOptions
+  _applyPlayerOptionsToVideoElement() {
     if (this._playerOptions.autoPlay === true) {
       this._videoElement.setAttribute('autoplay', 'true')
 
@@ -22,16 +25,9 @@ class SimpleVideoPlayer {
       this._videoElement.muted = true
     }
   
-    // We're going to assume here that the controls are enabled
-    // by default, so you have to explicitly disable them
     if (this._playerOptions.controls === true) {
       this._videoElement.removeAttribute('controls', 'true')
     }
-
-    // Now we can attach the video element
-    this._videoContainerElement = videoContainerElement
-    this._videoContainerElement.appendChild(this._videoElement)
-
   }
 
   load(videoUrl) {
@@ -45,16 +41,16 @@ class SimpleVideoPlayer {
           // Once things start playing then we'll create our controls and inject them
           // in as well
           this._videoContainerElement.style.position = 'relative'
-          this._ui = document.createElement('div')
-          this._ui.style.display = 'flex'
-          this._ui.style.flexDirection = 'row'
-          this._ui.style.justifyContent = 'space-between'
-          this._ui.style.alignItems = 'bottom'
-          this._ui.style.position = 'absolute'
-          this._ui.style.width = '80%'
-          this._ui.style.height = '100%'
-          this._ui.style.margin = '10px'
-          this._ui.style.top = '0'
+          this._uiContainerElement = document.createElement('div')
+          this._uiContainerElement.style.display = 'flex'
+          this._uiContainerElement.style.flexDirection = 'row'
+          this._uiContainerElement.style.justifyContent = 'space-between'
+          this._uiContainerElement.style.alignItems = 'bottom'
+          this._uiContainerElement.style.position = 'absolute'
+          this._uiContainerElement.style.width = '80%'
+          this._uiContainerElement.style.height = '100%'
+          this._uiContainerElement.style.margin = '10px'
+          this._uiContainerElement.style.top = '0'
 
           // Then make the play button with all of its styles
           const play = document.createElement('button')
