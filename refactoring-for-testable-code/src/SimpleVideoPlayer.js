@@ -1,7 +1,7 @@
 import Hls from 'hls.js'
 
 class SimpleVideoPlayer {
-  constructor(container, options = {}) {
+  constructor(inputEl, opts = {}) {
     // First we'll create the video element and attach
     // it to the video container the implementor passes in
     this._el = document.createElement('video')
@@ -14,8 +14,8 @@ class SimpleVideoPlayer {
 
     // We also need to append some attributes so the options
     // the user passes in are applied to the video
-    this._options = options
-    if (this._options.autoPlay === true) {
+    this._opts = opts
+    if (this._opts.autoPlay === true) {
       this._el.setAttribute('autoplay', 'true')
 
       // We also have to set the video player to muted to start
@@ -24,13 +24,13 @@ class SimpleVideoPlayer {
   
     // We're going to assume here that the controls are enabled
     // by default, so you have to explicitly disable them
-    if (this._options.controls === true) {
+    if (this._opts.controls === true) {
       this._el.removeAttribute('controls', 'true')
     }
 
     // Now we can attach the video element
-    this._container = container
-    this._container.appendChild(this._el)
+    this._inputEl = inputEl
+    this._inputEl.appendChild(this._el)
 
   }
 
@@ -44,7 +44,7 @@ class SimpleVideoPlayer {
         this._el.addEventListener('loadedmetadata', () => {
           // Once things start playing then we'll create our controls and inject them
           // in as well
-          this._container.style.position = 'relative'
+          this._inputEl.style.position = 'relative'
           this._ui = document.createElement('div')
           this._ui.style.display = 'flex'
           this._ui.style.flexDirection = 'row'
@@ -82,7 +82,7 @@ class SimpleVideoPlayer {
 
           this._ui.appendChild(play)
           this._ui.appendChild(pause)
-          this._container.appendChild(this._ui)
+          this._inputEl.appendChild(this._ui)
 
           // Then start the video
           this._el.play();
@@ -101,7 +101,7 @@ class SimpleVideoPlayer {
           this._hls.on(Hls.Events.MANIFEST_PARSED, () => {
             console.log('Manifest is parsed')
             // Setup the same UI for the
-            this._container.style.position = 'relative'
+            this._inputEl.style.position = 'relative'
             this._ui = document.createElement('div')
             this._ui.style.display = 'flex'
             this._ui.style.flexDirection = 'row'
@@ -139,7 +139,7 @@ class SimpleVideoPlayer {
 
             this._ui.appendChild(play)
             this._ui.appendChild(pause)
-            this._container.appendChild(this._ui)
+            this._inputEl.appendChild(this._ui)
 
             // Then play
             this._el.play()
