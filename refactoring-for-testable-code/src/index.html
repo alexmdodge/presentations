@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>Simple Video Player</title>
+
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      font-size: 16px;
+      margin: 2rem;
+    }
+
+    .svp__title {
+      font-family: "Comic Sans MS", "Comic Sans", cursive;
+    }
+
+    .svp__video {
+      background-color: black;
+      width: 640px;
+      height: 360px;
+    }
+
+    .controls {
+      margin: 1rem;
+    }
+
+    button {
+      font-family: "Comic Sans MS", "Comic Sans", cursive;
+      font-size: 18px;
+      background-color: blueviolet;
+      padding: 1rem;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="svp__title">Simple Video Player Demo</h1>
+  <div id="svp-video-container" class="svp__video"></div>
+  <div class="controls">
+    <button id="load-mp4">Load MP4</button>
+    <button id="load-m3u8">Load M3U8</button>
+  </div>
+</body>
+</html>
