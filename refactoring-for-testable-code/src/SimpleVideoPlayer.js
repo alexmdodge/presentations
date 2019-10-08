@@ -1,50 +1,50 @@
 import Hls from 'hls.js'
 
 class SimpleVideoPlayer {
-  constructor(inputEl, opts = {}) {
+  constructor(videoContainerElement, playerOptions = {}) {
     // First we'll create the video element and attach
     // it to the video container the implementor passes in
-    this._el = document.createElement('video')
+    this._videoElement = document.createElement('video')
 
     // Making sure here that we set the styles of the video
     // element so they stretch to the width of the parent
     // container
-    this._el.style.width = '100%'
-    this._el.style.height = '100%'
+    this._videoElement.style.width = '100%'
+    this._videoElement.style.height = '100%'
 
     // We also need to append some attributes so the options
     // the user passes in are applied to the video
-    this._opts = opts
-    if (this._opts.autoPlay === true) {
-      this._el.setAttribute('autoplay', 'true')
+    this._playerOptions = playerOptions
+    if (this._playerOptions.autoPlay === true) {
+      this._videoElement.setAttribute('autoplay', 'true')
 
       // We also have to set the video player to muted to start
-      this._el.muted = true
+      this._videoElement.muted = true
     }
   
     // We're going to assume here that the controls are enabled
     // by default, so you have to explicitly disable them
-    if (this._opts.controls === true) {
-      this._el.removeAttribute('controls', 'true')
+    if (this._playerOptions.controls === true) {
+      this._videoElement.removeAttribute('controls', 'true')
     }
 
     // Now we can attach the video element
-    this._inputEl = inputEl
-    this._inputEl.appendChild(this._el)
+    this._videoContainerElement = videoContainerElement
+    this._videoContainerElement.appendChild(this._videoElement)
 
   }
 
-  load(url) {
-    if(url.lastIndexOf('.') > -1) {
-      const urlType = url.substring(url.lastIndexOf('.') + 1)
+  load(videoUrl) {
+    if(videoUrl.lastIndexOf('.') > -1) {
+      const videoUrlType = videoUrl.substring(videoUrl.lastIndexOf('.') + 1)
 
-      if (urlType === 'mp4' || this._el.canPlayType('application/vnd.apple.mpegurl')) {
+      if (videoUrlType === 'mp4' || this._videoElement.canPlayType('application/vnd.apple.mpegurl')) {
         // Load the basic video player as expected
-        this._el.src = url
-        this._el.addEventListener('loadedmetadata', () => {
+        this._videoElement.src = videoUrl
+        this._videoElement.addEventListener('loadedmetadata', () => {
           // Once things start playing then we'll create our controls and inject them
           // in as well
-          this._inputEl.style.position = 'relative'
+          this._videoContainerElement.style.position = 'relative'
           this._ui = document.createElement('div')
           this._ui.style.display = 'flex'
           this._ui.style.flexDirection = 'row'
@@ -65,7 +65,7 @@ class SimpleVideoPlayer {
           play.style.height = '60px'
 
           play.addEventListener('click', () => {
-            this._el.play()
+            this._videoElement.play()
           })
 
           // And pause
@@ -77,31 +77,31 @@ class SimpleVideoPlayer {
           pause.style.height = '60px'
 
           pause.addEventListener('click', () => {
-            this._el.pause()
+            this._videoElement.pause()
           })
 
           this._ui.appendChild(play)
           this._ui.appendChild(pause)
-          this._inputEl.appendChild(this._ui)
+          this._videoContainerElement.appendChild(this._ui)
 
           // Then start the video
-          this._el.play();
+          this._videoElement.play();
         });
-      } else if (urlType === 'm3u8' && Hls.isSupported()) {
+      } else if (videoUrlType === 'm3u8' && Hls.isSupported()) {
           this._hls = new Hls();
 
           // Load the source into the hls instance
-          this._hls.loadSource(url);
+          this._hls.loadSource(videoUrl);
 
           // Attach the video
-          this._hls.attachMedia(this._el);
+          this._hls.attachMedia(this._videoElement);
 
           // Finally listen for when the manifest is parsed
           // and we can start to play
           this._hls.on(Hls.Events.MANIFEST_PARSED, () => {
             console.log('Manifest is parsed')
             // Setup the same UI for the
-            this._inputEl.style.position = 'relative'
+            this._videoContainerElement.style.position = 'relative'
             this._ui = document.createElement('div')
             this._ui.style.display = 'flex'
             this._ui.style.flexDirection = 'row'
@@ -130,19 +130,19 @@ class SimpleVideoPlayer {
             pause.style.height = '60px'
 
             play.addEventListener('click', () => {
-              this._el.play()
+              this._videoElement.play()
             })
 
             pause.addEventListener('click', () => {
-              this._el.pause()
+              this._videoElement.pause()
             })
 
             this._ui.appendChild(play)
             this._ui.appendChild(pause)
-            this._inputEl.appendChild(this._ui)
+            this._videoContainerElement.appendChild(this._ui)
 
             // Then play
-            this._el.play()
+            this._videoElement.play()
           })
       } else {
         console.error('url type is not supported')
@@ -153,11 +153,11 @@ class SimpleVideoPlayer {
   }
 
   play() {
-    this._el.play()
+    this._videoElement.play()
   }
 
   pause() {
-    this._el.pause()
+    this._videoElement.pause()
   }
 }
 
