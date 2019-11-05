@@ -1,4 +1,11 @@
 import Hls from 'hls.js'
+import {
+  createVideoPlayerElement,
+  applyAutoPlayAttributesToVideoElement,
+  applyControlAttributesToVideoElement,
+  validateVideoUrlValidFormat,
+  detectVideoTypeFromUrl
+} from './SimpleVideoPlayerUtils'
 
 /**
  * High level module which exposes the public API of the
@@ -9,36 +16,20 @@ class SimpleVideoPlayer {
     this._playerOptions = playerOptions
     this._videoContainerElement = videoContainerElement
 
-    this._createPlayerVideoElement()
+    this._videoElement = createVideoPlayerElement()
     this._applyPlayerOptionsToVideoElement()
-    this._attachVideoElementToContainer()
-  }
 
-  _createPlayerVideoElement() {
-    this._videoElement = document.createElement('video')
-    this._videoElement.style.width = '100%'
-    this._videoElement.style.height = '100%'
+    this._attachVideoElementToContainer()
   }
 
   _applyPlayerOptionsToVideoElement() {
     if (this._playerOptions.autoPlay === true) {
-      this._applyAutoPlayAttributesToVideoElement()
+      applyAutoPlayAttributesToVideoElement(this._videoElement)
     }
   
     if (this._playerOptions.controls === true) {
-      this._applyControlAttributesToVideoElement()
+      applyControlAttributesToVideoElement(this._videoElement)
     }
-  }
-
-  _applyAutoPlayAttributesToVideoElement() {
-    this._videoElement.setAttribute('autoplay', 'true')
-
-    // We also have to set the video player to muted to start
-    this._videoElement.muted = true
-  }
-
-  _applyControlAttributesToVideoElement() {
-    this._videoElement.removeAttribute('controls', 'true')
   }
 
   _attachVideoElementToContainer() {
@@ -46,7 +37,7 @@ class SimpleVideoPlayer {
   }
 
   load(videoUrl) {
-    const isVideoUrlValidFormat = this._validateVideoUrlValidFormat(videoUrl)
+    const isVideoUrlValidFormat = validateVideoUrlValidFormat(videoUrl)
 
     if(isVideoUrlValidFormat) {
       _detectVideoFormatAndLoad(videoUrl)
@@ -55,13 +46,8 @@ class SimpleVideoPlayer {
     }
   }
 
-  _validateVideoUrlValidFormat(url) {
-    // We can now easily add more layers of validation here
-    return url.lastIndexOf('.') > -1
-  }
-
   _detectVideoFormatAndLoad(videoUrl) {
-    const videoType = this._getVideoType(videoUrl)
+    const videoType = detectVideoTypeFromUrl(videoUrl)
     const isNativeVideoPlaybackSupported = this._detectNativeVideoPlaybackSupport(videoType)
     const isHlsVideoPlaybackSupported = this._detectHlsVideoPlaybackSupport(videoType)
 
@@ -70,12 +56,8 @@ class SimpleVideoPlayer {
     } else if (isHlsVideoPlaybackSupported) {
       this._setupUiAndPlayHlsVideo(videoUrl)
     } else {
-      console.error('url type is not supported')
+      console.error('Video URL type is not supported')
     }
-  }
-
-  _getVideoType(url) {
-    return url.substring(url.lastIndexOf('.') + 1)
   }
 
   _detectNativeVideoPlaybackSupport(videoType) {
