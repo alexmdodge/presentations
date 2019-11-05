@@ -1,4 +1,7 @@
-class SimpleVideoPlayerUi {
+/**
+ * Simple UI which allows you to control the SimpleVideoPlayer
+ */
+export class SimpleVideoPlayerUi {
   constructor(videoPlayer) {
     this._player = videoPlayer
     this._videoContainerElement = null

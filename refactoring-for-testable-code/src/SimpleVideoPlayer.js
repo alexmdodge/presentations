@@ -4,7 +4,7 @@ import Hls from 'hls.js'
  * High level module which exposes the public API of the
  * video player to a consumer.
  */
-export class SimpleVideoPlayer {
+class SimpleVideoPlayer {
   constructor(videoContainerElement, playerOptions = {}) {
     this._playerOptions = playerOptions
     this._videoContainerElement = videoContainerElement
