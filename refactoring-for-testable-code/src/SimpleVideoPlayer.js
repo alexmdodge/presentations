@@ -96,11 +96,11 @@ class SimpleVideoPlayer {
   }
 
   _onNativeVideoMetadataLoaded() {
-    this._setupNativeVideoPlayerUi()
+    this._setupVideoPlayerUi()
     this._videoElement.play();
   }
 
-  _setupNativeVideoPlayerUi() {
+  _setupVideoPlayerUi() {
     // Once things start playing then we'll create our controls and inject them
     // in as well
     this._videoContainerElement.style.position = 'relative'
@@ -146,63 +146,13 @@ class SimpleVideoPlayer {
 
   _setupUiAndPlayHlsVideo(videoUrl) {
     this._hls = new Hls();
-
-    // Load the source into the hls instance
     this._hls.loadSource(videoUrl);
-
-    // Attach the video
     this._hls.attachMedia(this._videoElement);
 
-    // Finally listen for when the manifest is parsed
-    // and we can start to play
     this._hls.on(Hls.Events.MANIFEST_PARSED, () => {
-      this._setupHlsVideoPlayerUi()
+      this._setupVideoPlayerUi()
       this._videoElement.play()
     })
-  }
-
-  _setupHlsVideoPlayerUi() {
-    console.log('Manifest is parsed')
-    // Setup the same UI for the
-    this._videoContainerElement.style.position = 'relative'
-    this._ui = document.createElement('div')
-    this._ui.style.display = 'flex'
-    this._ui.style.flexDirection = 'row'
-    this._ui.style.justifyContent = 'space-between'
-    this._ui.style.alignItems = 'center'
-    this._ui.style.position = 'absolute'
-    this._ui.style.width = '80%'
-    this._ui.style.height = '100%'
-    this._ui.style.top = '0'
-    this._ui.style.margin = '10px'
-
-    // Then make the play button with all of its styles
-    const play = document.createElement('button')
-    play.innerHTML = 'PLAY'
-    play.style.fontFamily = `"Comic Sans MS", "Comic Sans", cursive`
-    play.style.fontSize = '16px'
-    play.style.fontWeight = 'bold'
-    play.style.height = '60px'
-
-    // And pause
-    const pause = document.createElement('button')
-    pause.innerHTML = 'PAUSE'
-    pause.style.fontFamily = `"Comic Sans MS", "Comic Sans", cursive`
-    pause.style.fontSize = '16px'
-    pause.style.fontWeight = 'bold'
-    pause.style.height = '60px'
-
-    play.addEventListener('click', () => {
-      this._videoElement.play()
-    })
-
-    pause.addEventListener('click', () => {
-      this._videoElement.pause()
-    })
-
-    this._ui.appendChild(play)
-    this._ui.appendChild(pause)
-    this._videoContainerElement.appendChild(this._ui)
   }
 
   play() {
