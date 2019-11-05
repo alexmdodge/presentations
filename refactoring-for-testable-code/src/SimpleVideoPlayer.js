@@ -3,12 +3,11 @@ import Hls from 'hls.js'
 class SimpleVideoPlayer {
   constructor(videoContainerElement, playerOptions = {}) {
     this._playerOptions = playerOptions
+    this._videoContainerElement = videoContainerElement
+
     this._createPlayerVideoElement()
     this._applyPlayerOptionsToVideoElement()
-
-    // Now we can attach the video element
-    this._videoContainerElement = videoContainerElement
-    this._videoContainerElement.appendChild(this._videoElement)
+    this._attachVideoElementToContainer()
   }
 
   _createPlayerVideoElement() {
@@ -36,6 +35,10 @@ class SimpleVideoPlayer {
 
   _applyControlAttributesToVideoElement() {
     this._videoElement.removeAttribute('controls', 'true')
+  }
+
+  _attachVideoElementToContainer() {
+    this._videoContainerElement.appendChild(this._videoElement)
   }
 
   load(videoUrl) {
