@@ -1,6 +1,10 @@
 import Hls from 'hls.js'
 
-class SimpleVideoPlayer {
+/**
+ * High level module which exposes the public API of the
+ * video player to a consumer.
+ */
+export class SimpleVideoPlayer {
   constructor(videoContainerElement, playerOptions = {}) {
     this._playerOptions = playerOptions
     this._videoContainerElement = videoContainerElement
@@ -98,50 +102,6 @@ class SimpleVideoPlayer {
   _onNativeVideoMetadataLoaded() {
     this._setupVideoPlayerUi()
     this._videoElement.play();
-  }
-
-  _setupVideoPlayerUi() {
-    // Once things start playing then we'll create our controls and inject them
-    // in as well
-    this._videoContainerElement.style.position = 'relative'
-    this._uiContainerElement = document.createElement('div')
-    this._uiContainerElement.style.display = 'flex'
-    this._uiContainerElement.style.flexDirection = 'row'
-    this._uiContainerElement.style.justifyContent = 'space-between'
-    this._uiContainerElement.style.alignItems = 'bottom'
-    this._uiContainerElement.style.position = 'absolute'
-    this._uiContainerElement.style.width = '80%'
-    this._uiContainerElement.style.height = '100%'
-    this._uiContainerElement.style.margin = '10px'
-    this._uiContainerElement.style.top = '0'
-
-    // Then make the play button with all of its styles
-    const play = document.createElement('button')
-    play.innerHTML = 'PLAY'
-    play.style.fontFamily = `"Comic Sans MS", "Comic Sans", cursive`
-    play.style.fontSize = '16px'
-    play.style.fontWeight = 'bold'
-    play.style.height = '60px'
-
-    play.addEventListener('click', () => {
-      this._videoElement.play()
-    })
-
-    // And pause
-    const pause = document.createElement('button')
-    pause.innerHTML = 'PAUSE'
-    pause.style.fontFamily = `"Comic Sans MS", "Comic Sans", cursive`
-    pause.style.fontSize = '16px'
-    pause.style.fontWeight = 'bold'
-    pause.style.height = '60px'
-
-    pause.addEventListener('click', () => {
-      this._videoElement.pause()
-    })
-
-    this._ui.appendChild(play)
-    this._ui.appendChild(pause)
-    this._videoContainerElement.appendChild(this._ui)
   }
 
   _setupUiAndPlayHlsVideo(videoUrl) {
