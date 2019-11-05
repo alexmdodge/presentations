@@ -42,10 +42,12 @@ class SimpleVideoPlayer {
   }
 
   load(videoUrl) {
-    if(videoUrl.lastIndexOf('.') > -1) {
+    const isVideoUrlValidFormat = videoUrl.lastIndexOf('.') > -1
+
+    if(isVideoUrlValidFormat) {
       _detectVideoFormatAndLoad()
     } else {
-      console.error('url is not a valid format')
+      console.error('Video URL is not a valid format')
     }
   }
 
