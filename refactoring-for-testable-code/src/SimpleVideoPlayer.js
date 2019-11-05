@@ -19,15 +19,23 @@ class SimpleVideoPlayer {
 
   _applyPlayerOptionsToVideoElement() {
     if (this._playerOptions.autoPlay === true) {
-      this._videoElement.setAttribute('autoplay', 'true')
-
-      // We also have to set the video player to muted to start
-      this._videoElement.muted = true
+      this._applyAutoPlayAttributesToVideoElement()
     }
   
     if (this._playerOptions.controls === true) {
-      this._videoElement.removeAttribute('controls', 'true')
+      this._applyControlAttributesToVideoElement()
     }
+  }
+
+  _applyAutoPlayAttributesToVideoElement() {
+    this._videoElement.setAttribute('autoplay', 'true')
+
+    // We also have to set the video player to muted to start
+    this._videoElement.muted = true
+  }
+
+  _applyControlAttributesToVideoElement() {
+    this._videoElement.removeAttribute('controls', 'true')
   }
 
   load(videoUrl) {
