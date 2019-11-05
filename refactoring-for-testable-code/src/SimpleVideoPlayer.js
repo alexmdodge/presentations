@@ -45,7 +45,7 @@ class SimpleVideoPlayer {
     const isVideoUrlValidFormat = this._validateVideoUrlValidFormat(videoUrl)
 
     if(isVideoUrlValidFormat) {
-      _detectVideoFormatAndLoad()
+      _detectVideoFormatAndLoad(videoUrl)
     } else {
       console.error('Video URL is not a valid format')
     }
@@ -56,10 +56,12 @@ class SimpleVideoPlayer {
     return url.lastIndexOf('.') > -1
   }
 
-  _detectVideoFormatAndLoad() {
-    const videoUrlType = videoUrl.substring(videoUrl.lastIndexOf('.') + 1)
+  _detectVideoFormatAndLoad(videoUrl) {
+    const videoType = this._getVideoType(videoUrl)
+    const isNativeVideoPlaybackSupported = this._detectNativeVideoPlaybackSupport(videoType)
+    const isHlsVideoPlaybackSupported = this._detectHlsVideoPlaybackSupport(videoType)
 
-    if (videoUrlType === 'mp4' || this._videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+    if (isNativeVideoPlaybackSupported) {
       // Load the basic video player as expected
       this._videoElement.src = videoUrl
       this._videoElement.addEventListener('loadedmetadata', () => {
@@ -108,7 +110,7 @@ class SimpleVideoPlayer {
         // Then start the video
         this._videoElement.play();
       });
-    } else if (videoUrlType === 'm3u8' && Hls.isSupported()) {
+    } else if (isHlsVideoPlaybackSupported) {
         this._hls = new Hls();
 
         // Load the source into the hls instance
@@ -168,6 +170,22 @@ class SimpleVideoPlayer {
     } else {
       console.error('url type is not supported')
     }
+  }
+
+  _getVideoType(url) {
+    return url.substring(url.lastIndexOf('.') + 1)
+  }
+
+  _detectNativeVideoPlaybackSupport(videoType) {
+    const isHlsSupportedNatively = this._videoElement.canPlayType('application/vnd.apple.mpegurl')
+    const isVideoTypeProgressive = videoType === 'mp4'
+    return isVideoTypeProgressive || isHlsSupportedNatively 
+  }
+
+  _detectHlsVideoPlaybackSupport(videoType) {
+    const isVideoTypeHls = videoType === 'm3u8'
+    const isHlsSupportAvailable = Hls.isSupported()  
+    return isVideoTypeHls && isHlsSupportAvailable
   }
 
   play() {
