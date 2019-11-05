@@ -42,13 +42,18 @@ class SimpleVideoPlayer {
   }
 
   load(videoUrl) {
-    const isVideoUrlValidFormat = videoUrl.lastIndexOf('.') > -1
+    const isVideoUrlValidFormat = this._validateVideoUrlValidFormat(videoUrl)
 
     if(isVideoUrlValidFormat) {
       _detectVideoFormatAndLoad()
     } else {
       console.error('Video URL is not a valid format')
     }
+  }
+
+  _validateVideoUrlValidFormat(url) {
+    // We can now easily add more layers of validation here
+    return url.lastIndexOf('.') > -1
   }
 
   _detectVideoFormatAndLoad() {
