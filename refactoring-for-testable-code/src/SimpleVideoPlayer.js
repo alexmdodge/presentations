@@ -4,7 +4,9 @@ import {
   applyAutoPlayAttributesToVideoElement,
   applyControlAttributesToVideoElement,
   validateVideoUrlValidFormat,
-  detectVideoTypeFromUrl
+  detectVideoTypeFromUrl,
+  detectNativeVideoPlaybackSupport,
+  detectHlsVideoPlaybackSupport
 } from './SimpleVideoPlayerUtils'
 
 /**
@@ -48,8 +50,8 @@ class SimpleVideoPlayer {
 
   _detectVideoFormatAndLoad(videoUrl) {
     const videoType = detectVideoTypeFromUrl(videoUrl)
-    const isNativeVideoPlaybackSupported = this._detectNativeVideoPlaybackSupport(videoType)
-    const isHlsVideoPlaybackSupported = this._detectHlsVideoPlaybackSupport(videoType)
+    const isNativeVideoPlaybackSupported = detectNativeVideoPlaybackSupport(videoType, this._videoElement)
+    const isHlsVideoPlaybackSupported = detectHlsVideoPlaybackSupport(videoType, Hls)
 
     if (isNativeVideoPlaybackSupported) {
       this._setupUiAndPlayNativeVideo(videoUrl)
@@ -58,18 +60,6 @@ class SimpleVideoPlayer {
     } else {
       console.error('Video URL type is not supported')
     }
-  }
-
-  _detectNativeVideoPlaybackSupport(videoType) {
-    const isHlsSupportedNatively = this._videoElement.canPlayType('application/vnd.apple.mpegurl')
-    const isVideoTypeProgressive = videoType === 'mp4'
-    return isVideoTypeProgressive || isHlsSupportedNatively 
-  }
-
-  _detectHlsVideoPlaybackSupport(videoType) {
-    const isVideoTypeHls = videoType === 'm3u8'
-    const isHlsSupportAvailable = Hls.isSupported()  
-    return isVideoTypeHls && isHlsSupportAvailable
   }
 
   _setupUiAndPlayNativeVideo(videoUrl) {

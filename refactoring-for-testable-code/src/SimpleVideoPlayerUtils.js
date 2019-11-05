@@ -25,3 +25,15 @@ export function validateVideoUrlValidFormat(url) {
 export function detectVideoTypeFromUrl(url) {
   return url.substring(url.lastIndexOf('.') + 1)
 }
+
+export function detectNativeVideoPlaybackSupport(videoType, videoElement) {
+  const isHlsSupportedNatively = videoElement.canPlayType('application/vnd.apple.mpegurl')
+  const isVideoTypeProgressive = videoType === 'mp4'
+  return isVideoTypeProgressive || isHlsSupportedNatively 
+}
+
+export function detectHlsVideoPlaybackSupport(videoType, HlsUtils) {
+  const isVideoTypeHls = videoType === 'm3u8'
+  const isHlsSupportAvailable = HlsUtils.isSupported()  
+  return isVideoTypeHls && isHlsSupportAvailable
+}
