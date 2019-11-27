@@ -74,6 +74,8 @@ class VideoPlayer {
   }
 }
 
+// Now we'll create the player and play a video
+
 const player1 = new VideoPlayer({
   captions: {
     enabled: false
