@@ -51,10 +51,10 @@ class VideoPlayer {
   private _config: PlayerConfiguration
 
   public constructor(playerConfig: DeepPartial<PlayerConfiguration>) {
-    this._config = this._normalizePlayerConfiguration(playerConfig)
+    this._config = this._normalizePlayerConfig(playerConfig)
   }
 
-  private _normalizePlayerConfiguration(partialConfig: DeepPartial<PlayerConfiguration>): PlayerConfiguration {
+  private _normalizePlayerConfig(partialConfig: DeepPartial<PlayerConfiguration>): PlayerConfiguration {
     // If we wanted we could add some runtime validation in here:
     // https://github.com/gcanti/io-ts
 
@@ -62,15 +62,18 @@ class VideoPlayer {
   }
 
   public play(url: string, playOverrides?: DeepPartial<PlayerConfiguration>) {
-    this._config = this._overrideConfiguration(playOverrides)
+    this._config = this._overrideConfig(this._config, playOverrides)
 
     // Play the video using our underlying video libraries
     // _videoElement.volume = this._config.media.volume
     // ex. _videoElement.src = url
   }
 
-  private _overrideConfiguration(partialConfig?: DeepPartial<PlayerConfiguration>): PlayerConfiguration {
-    return extend(true, {}, this._config, partialConfig)
+  private _overrideConfig(
+    config: PlayerConfiguration,
+    partialConfig?: DeepPartial<PlayerConfiguration>
+  ): PlayerConfiguration {
+    return extend(true, {}, config, partialConfig)
   }
 }
 
@@ -87,3 +90,71 @@ player1.play('https://my.video.url', {
     volume: 0.5
   }
 })
+
+type PlayerMediaConfig = {
+  volume: number;
+  muted: boolean;
+  bitrate: number;
+}
+
+type PlayerCaptionsConfig = {
+  enabled: boolean,
+  styles: {
+    color: 'red',
+    background: 'white',
+    font: 'italic'
+  }
+}
+
+type PlayerUiConfig = {
+  controls: { name: string, position: number }[],
+  themeColor: string;
+}
+
+// We could also offer the configuration as a builder
+class PlayerConfigurationBuilder {
+  private _config: DeepPartial<PlayerConfiguration>
+  
+  constructor() {
+    this._config = {}
+  }
+
+  public withMedia(config: DeepPartial<PlayerMediaConfig>) {
+    this._config = extend(true, {}, this._config, {
+      media: config
+    })
+
+    return this
+  }
+
+  public withCaptions(config: DeepPartial<PlayerCaptionsConfig>) {
+    this._config = extend(true, {}, this._config, {
+      captions: config
+    })
+
+    return this
+  }
+
+  public withUi(config: DeepPartial<PlayerUiConfig>) {
+    this._config = extend(true, {}, this._config, {
+      uis: config
+    })
+
+    return this
+  }
+
+  public build(): DeepPartial<PlayerConfiguration> {
+    return this._config
+  }
+}
+
+const builder = new PlayerConfigurationBuilder()
+const config = builder
+  .withCaptions({
+    enabled: true
+  })
+  .build()
+
+const player2 = new VideoPlayer(config)
+
+player2.play('https://my.video.url')
