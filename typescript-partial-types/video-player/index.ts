@@ -99,11 +99,13 @@ type PlayerMediaConfig = {
 
 type PlayerCaptionsConfig = {
   enabled: boolean,
-  styles: {
-    color: 'red',
-    background: 'white',
-    font: 'italic'
-  }
+  styles: PlayerCaptionsStylesConfig
+}
+
+type PlayerCaptionsStylesConfig = {
+  color: string,
+  background: string,
+  font: string
 }
 
 type PlayerUiConfig = {
@@ -133,6 +135,14 @@ class PlayerConfigurationBuilder {
     })
 
     return this
+  }
+
+  public withCaptionStyles(config: DeepPartial<PlayerCaptionsStylesConfig>) {
+    this._config = extend(true, {}, this._config, {
+      captions: {
+        styles: config
+      }
+    })
   }
 
   public withUi(config: DeepPartial<PlayerUiConfig>) {
