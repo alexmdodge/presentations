@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "typescript": "3.4.5"
+    "@types/extend": "^3.0.1"
+  },
+  "devDependencies": {
+    "extend": "^3.0.2",
+    "typescript": "^3.7.2"
   }
 }
