@@ -143,6 +143,8 @@ class PlayerConfigurationBuilder {
         styles: config
       }
     })
+
+    return this
   }
 
   public withUi(config: DeepPartial<PlayerUiConfig>) {
@@ -160,8 +162,9 @@ class PlayerConfigurationBuilder {
 
 const builder = new PlayerConfigurationBuilder()
 const config = builder
-  .withCaptions({
-    enabled: true
+  .withCaptionStyles({
+    color: 'red',
+    font: 'bold'
   })
   .build()
 
