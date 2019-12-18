@@ -1,33 +1,38 @@
-interface ComplexPlayData {
-  mediaId: string;
-  isLive: boolean;
+import extend from 'extend'
+
+import { DeepPartial } from '../deep-partial';
+import { PlayerConfiguration, playerConfigDefaults } from './utils';
+
+interface ContentData {
+  stream: {
+    url: string,
+    captions?: boolean,
+    segments?: number[]
+  },
+  authentication?: {
+    token?: string;
+    authType?: string;
+  },
+  drm?: {
+    licenseUrl: string;
+    certificateUrl: string;
+    headers: Record<string, string>
+  }
 }
 
-type PlayData = string | ComplexPlayData;
-
-// Here the type guard can narrow our play data to determine
-function isComplexPlayData(data: PlayData): data is ComplexPlayData {
-  return (data as ComplexPlayData).mediaId !== undefined;
+function isString(data: any): data is String {
+  return typeof data === 'string'
 }
 
-// This is the simpler one to call in the case where we only have two types
-// to narrow between
-function isSimplePlayData(data: PlayData): data is string {
-  return typeof data === 'string';
+function isContentData(data: string | ContentData): data is ContentData {
+  return (data as ContentData).stream !== undefined
 }
 
-
-
-// Here we demonstrate using eitherxb
-play('http://sample.com/myvideo.mp4');
-
-play({
-  mediaId: '93999r9f9399399f9',
-  isLive: true,
-});
+// Usually we'll have a couple more
 
 class VideoPlayer {
   private _config: PlayerConfiguration
+  private _playData?: ContentData
 
   public constructor(playerConfig: DeepPartial<PlayerConfiguration>) {
     this._config = this._normalizePlayerConfig(playerConfig)
@@ -37,27 +42,30 @@ class VideoPlayer {
     // If we wanted we could add some runtime validation in here:
     // https://github.com/gcanti/io-ts
 
-    return extend(true, {}, playerConfigDefaults, partialConfig)
+    return extend(true, {}, playerConfigDefaults(), partialConfig)
   }
 
-  public play(url: string, playOverrides?: DeepPartial<PlayerConfiguration>) {
+  private _normalizePlayData(data: string): ContentData {
+    // Usually we would use more complex merging mechanisms to handle various case
+    return {
+      stream: {
+        url: data
+      }
+    }
+  }
+
+  public play(data: string | ContentData, playOverrides?: DeepPartial<PlayerConfiguration>) {
     this._config = this._overrideConfig(this._config, playOverrides)
 
-  // Our play call can accept either data formats now
-  public play(data: PlayData) {
-    let contentUrl: string;
-
-    if (isComplexPlayData(data)) {
-      const { mediaId, isLive } = data
-
-      // Build a url from the complex data
-      contentUrl = `https://sample.com/${mediaId}.mp4?live=${isLive}`
+    if (isString(data)) {
+      this._playData = this._normalizePlayData(data)
     } else {
-      // Use simple url to play
-      contentUrl = data
+      this._playData = data
     }
 
-    // startVideoPlayback(contentUrl);
+    // Play the video using our underlying video libraries
+    // _videoElement.volume = this._config.media.volume
+    // ex. _videoElement.src = url
   }
 
   private _overrideConfig(
@@ -162,3 +170,22 @@ const config = builder
 const player2 = new VideoPlayer(config)
 
 player2.play('https://my.video.url')
+
+player2.play({
+  stream: {
+    url: 'https://my.complex.video.url',
+    captions: true,
+    segments: [ 0, 123, 600 ]
+  },
+  authentication: {
+    authType: 'jwt',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+  },
+  drm: {
+    certificateUrl: 'https://fairplay.license-server.com/0939f99f39j9jf9dj93f',
+    licenseUrl: 'https://fairplay.license-server.com/0939f99f39j9jf9dj93f',
+    headers: {
+      'x-exp-token': 'kfjkgj3k3jgk3j3jkjdkjdlakjvvaooeop43pp33o2i2o'
+    }
+  }
+})

@@ -1,30 +1,51 @@
-interface ComplexPlayData {
-  mediaId: string;
-  isLive: boolean;
+import { DeepPartial } from '../deep-partial';
+import extend from 'extend'
+
+// To start, a large player configuration 
+type PlayerConfiguration = {
+  media: {
+    volume: number;
+    muted: boolean;
+    bitrate: number;
+  },
+  captions: {
+    enabled: boolean,
+    styles: {
+      color: 'red',
+      background: 'white',
+      font: 'italic'
+    }
+  },
+  ui: {
+    controls: { name: string, position: number }[],
+    themeColor: string;
+  }
 }
 
-type PlayData = string | ComplexPlayData;
-
-// Here the type guard can narrow our play data to determine
-function isComplexPlayData(data: PlayData): data is ComplexPlayData {
-  return (data as ComplexPlayData).mediaId !== undefined;
+// And the default configuration which is used for every player setup
+const playerConfigDefaults: PlayerConfiguration = {
+  media: {
+    volume: 1,
+    muted: false,
+    bitrate: 2000,
+  },
+  captions: {
+    enabled: true,
+    styles: {
+      color: 'red',
+      background: 'white',
+      font: 'italic'
+    }
+  },
+  ui: {
+    controls: [
+      { name: 'Play', position: 0 },
+      { name: 'Pause', position: 1 },
+      { name: 'Volume', position: -1 },
+    ],
+    themeColor: 'blue'
+  }
 }
-
-// This is the simpler one to call in the case where we only have two types
-// to narrow between
-function isSimplePlayData(data: PlayData): data is string {
-  return typeof data === 'string';
-}
-
-
-
-// Here we demonstrate using eitherxb
-play('http://sample.com/myvideo.mp4');
-
-play({
-  mediaId: '93999r9f9399399f9',
-  isLive: true,
-});
 
 class VideoPlayer {
   private _config: PlayerConfiguration
@@ -43,21 +64,9 @@ class VideoPlayer {
   public play(url: string, playOverrides?: DeepPartial<PlayerConfiguration>) {
     this._config = this._overrideConfig(this._config, playOverrides)
 
-  // Our play call can accept either data formats now
-  public play(data: PlayData) {
-    let contentUrl: string;
-
-    if (isComplexPlayData(data)) {
-      const { mediaId, isLive } = data
-
-      // Build a url from the complex data
-      contentUrl = `https://sample.com/${mediaId}.mp4?live=${isLive}`
-    } else {
-      // Use simple url to play
-      contentUrl = data
-    }
-
-    // startVideoPlayback(contentUrl);
+    // Play the video using our underlying video libraries
+    // _videoElement.volume = this._config.media.volume
+    // ex. _videoElement.src = url
   }
 
   private _overrideConfig(

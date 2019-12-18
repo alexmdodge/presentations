@@ -1,0 +1,18 @@
+{
+  "name": "typescript-partial-types",
+  "version": "1.0.0",
+  "description": "Sample typescript partial types",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/extend": "^3.0.1"
+  },
+  "devDependencies": {
+    "extend": "^3.0.2",
+    "typescript": "^3.7.2"
+  }
+}
