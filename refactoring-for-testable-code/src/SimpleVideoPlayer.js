@@ -77,7 +77,7 @@ class SimpleVideoPlayer {
     const isVideoUrlValidFormat = validateVideoUrlValidFormat(videoUrl)
 
     if(isVideoUrlValidFormat) {
-      _detectVideoFormatAndLoad(videoUrl)
+      this._detectVideoFormatAndLoad(videoUrl)
     } else {
       console.error('Video URL is not a valid format')
     }

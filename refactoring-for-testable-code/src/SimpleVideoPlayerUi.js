@@ -22,9 +22,8 @@ export class SimpleVideoPlayerUi {
     this._uiContainerElement.style.justifyContent = 'space-between'
     this._uiContainerElement.style.alignItems = 'bottom'
     this._uiContainerElement.style.position = 'absolute'
-    this._uiContainerElement.style.width = '80%'
+    this._uiContainerElement.style.width = '100%'
     this._uiContainerElement.style.height = '100%'
-    this._uiContainerElement.style.margin = '10px'
     this._uiContainerElement.style.top = '0'
   }
 
@@ -40,7 +39,9 @@ export class SimpleVideoPlayerUi {
     button.style.fontFamily = `"Comic Sans MS", "Comic Sans", cursive`
     button.style.fontSize = '16px'
     button.style.fontWeight = 'bold'
+    button.style.textTransform = 'uppercase'
     button.style.height = '60px'
+    button.style.cursor = 'pointer'
   }
 
   _addUiButtonListeners() {
