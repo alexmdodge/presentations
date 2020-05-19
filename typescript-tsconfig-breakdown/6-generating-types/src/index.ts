@@ -16,5 +16,6 @@ class Human implements SpeakingThing {
 }
 
 export {
+  SpeakingThing,
   Human
 }

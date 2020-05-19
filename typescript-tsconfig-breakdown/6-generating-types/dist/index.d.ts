@@ -6,4 +6,4 @@ declare class Human implements SpeakingThing {
     constructor(name: string);
     speak(): void;
 }
-export { Human };
+export { SpeakingThing, Human };

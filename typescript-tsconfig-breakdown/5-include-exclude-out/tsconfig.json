@@ -67,7 +67,6 @@
     "src/**/*"
   ],
   "exclude": [
-    "dependencies",
     "dist"
   ]
 }
