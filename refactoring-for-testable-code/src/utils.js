@@ -11,7 +11,7 @@ export function createVideoPlayerElement() {
 }
 
 /**
- * Message: Incoming
+ * Message: Outgoing
  * Type: Command
  */
 export function applyAutoPlayAttributesToVideoElement(videoElement) {
@@ -22,7 +22,7 @@ export function applyAutoPlayAttributesToVideoElement(videoElement) {
 }
 
 /**
- * Message: Incoming
+ * Message: Outgoing
  * Type: Command
  */
 export function applyControlAttributesToVideoElement(videoElement) {
@@ -64,4 +64,35 @@ export function detectHlsVideoPlaybackSupport(videoType, HlsUtils) {
   const isVideoTypeHls = videoType === 'm3u8'
   const isHlsSupportAvailable = HlsUtils.isSupported()  
   return isVideoTypeHls && isHlsSupportAvailable
+}
+
+// Note that we don't have an example of an Incoming Command but
+// we could represent that here as a registry of some kind
+
+class VideoElementRegistry {
+  constructor() {
+    this.registry = {}
+  }
+
+  /**
+   * Message: Incoming
+   * Type: Command
+   */
+  addVideoElement(uuid, element) {
+    this.registry[uuid] = element
+  }
+
+  /**
+   * Message: Incoming
+   * Type: Command
+   */
+  removeVideoElement(uuid) {
+    delete this.registry[uuid]
+  }
+}
+
+const VideoElementRegistrySingleton = new VideoElementRegistry()
+
+export {
+  VideoElementRegistrySingleton as VideoElementRegistry
 }
