@@ -33,9 +33,17 @@ export function applyControlAttributesToVideoElement(videoElement) {
  * Message: Incoming
  * Type: Query
  */
-export function validateVideoUrlValidFormat(url) {
-  // We can now easily add more layers of validation here
+export function isVideoUrlValidFormat(url) {
+  if (typeof url !== 'string') {
+    return false
+  }
+
   return url.lastIndexOf('.') > -1
+}
+
+export const VIDEO_TYPES = {
+  'MP4': 'mp4',
+  'UNKNOWN': 'unknown'
 }
 
 /**
@@ -43,7 +51,19 @@ export function validateVideoUrlValidFormat(url) {
  * Type: Query
  */
 export function detectVideoTypeFromUrl(url) {
-  return url.substring(url.lastIndexOf('.') + 1)
+  if (!isVideoUrlValidFormat(url)) {
+    return VIDEO_TYPES.UNKNOWN
+  }
+
+  const extensionPosition = url.lastIndexOf('.') + 1
+  const matchedType = url.substring(extensionPosition)
+
+  switch (matchedType) {
+    case 'mp4':
+      return VIDEO_TYPES.MP4
+    default:
+      return VIDEO_TYPES.UNKNOWN
+  }
 }
 
 /**

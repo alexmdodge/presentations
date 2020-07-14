@@ -1,14 +1,15 @@
 import {
-  validateVideoUrlValidFormat,
-  detectVideoTypeFromUrl
+  isVideoUrlValidFormat,
+  detectVideoTypeFromUrl,
+  VIDEO_TYPES
 } from '../src/utils'
 
-describe('validateVideoUrlValidFormat', () => {
+describe('isVideoUrlValidFormat', () => {
   it('should return true if a valid format is detected', () => {
     const testUrl = 'my-video.mp4'
 
     expect(
-      validateVideoUrlValidFormat(testUrl)
+      isVideoUrlValidFormat(testUrl)
     ).toStrictEqual(true)
   })
 
@@ -16,18 +17,17 @@ describe('validateVideoUrlValidFormat', () => {
     const testUrl = 'not-a-video'
     
     expect(
-      validateVideoUrlValidFormat(testUrl)
+      isVideoUrlValidFormat(testUrl)
     ).toStrictEqual(false)
   })
 
-  // TDD for some additional cases
-  // it('should return false if url is falsy', () => {
-  //   const testUrl = null
-  //  
-  //   expect(
-  //     validateVideoUrlValidFormat(testUrl)
-  //   ).toStrictEqual(false)
-  // })
+  it('should return false if url is a non-string', () => {
+    const testUrl = null
+   
+    expect(
+      isVideoUrlValidFormat(testUrl)
+    ).toStrictEqual(false)
+  })
 })
 
 describe('detectVideoTypeFromUrl', () => {
@@ -36,15 +36,30 @@ describe('detectVideoTypeFromUrl', () => {
 
     expect(
       detectVideoTypeFromUrl(testUrl)
-    ).toStrictEqual('mp4')
+    ).toStrictEqual(VIDEO_TYPES.MP4)
   })
 
-  // TDD for some additional cases
-  // it('should return null value if not extension found', () => {
-  //   const testUrl = 'not-a-video'
+  it('should return null value if an unknown extension', () => {
+    const testUrl = 'not-a-known.kt'
     
-  //   expect(
-  //     detectVideoTypeFromUrl(testUrl)
-  //   ).toStrictEqual('')
-  // })
+    expect(
+      detectVideoTypeFromUrl(testUrl)
+    ).toStrictEqual(VIDEO_TYPES.UNKNOWN)
+  })
+
+  it('should return null value if an unknown extension', () => {
+    const testUrl = 'not-a-known.kt'
+    
+    expect(
+      detectVideoTypeFromUrl(testUrl)
+    ).toStrictEqual(VIDEO_TYPES.UNKNOWN)
+  })
+
+  it('should return null value if a non-string url', () => {
+    const testUrl = null
+    
+    expect(
+      detectVideoTypeFromUrl(testUrl)
+    ).toStrictEqual(VIDEO_TYPES.UNKNOWN)
+  })
 })

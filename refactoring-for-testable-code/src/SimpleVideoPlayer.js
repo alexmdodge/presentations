@@ -3,7 +3,7 @@ import {
   createVideoPlayerElement,
   applyAutoPlayAttributesToVideoElement,
   applyControlAttributesToVideoElement,
-  validateVideoUrlValidFormat,
+  isVideoUrlValidFormat,
   detectVideoTypeFromUrl,
   detectNativeVideoPlaybackSupport,
   detectHlsVideoPlaybackSupport
@@ -74,9 +74,7 @@ class SimpleVideoPlayer {
   // PUBLIC API METHODS
 
   load(videoUrl) {
-    const isVideoUrlValidFormat = validateVideoUrlValidFormat(videoUrl)
-
-    if(isVideoUrlValidFormat) {
+    if(isVideoUrlValidFormat(videoUrl)) {
       this._detectVideoFormatAndLoad(videoUrl)
     } else {
       console.error('Video URL is not a valid format')
