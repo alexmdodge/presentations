@@ -2,37 +2,6 @@
  * Message: Incoming
  * Type: Query
  */
-export function createVideoPlayerElement() {
-  const videoElement = document.createElement('video')
-  videoElement.style.width = '100%'
-  videoElement.style.height = '100%'
-
-  return videoElement
-}
-
-/**
- * Message: Outgoing
- * Type: Command
- */
-export function applyAutoPlayAttributesToVideoElement(videoElement) {
-  videoElement.setAttribute('autoplay', 'true')
-
-  // We also have to set the video player to muted to start
-  videoElement.muted = true
-}
-
-/**
- * Message: Outgoing
- * Type: Command
- */
-export function applyControlAttributesToVideoElement(videoElement) {
-  videoElement.removeAttribute('controls', 'true')
-}
-
-/**
- * Message: Incoming
- * Type: Query
- */
 export function isVideoUrlValidFormat(url) {
   if (typeof url !== 'string') {
     return false
@@ -70,6 +39,35 @@ export function detectVideoTypeFromUrl(url) {
  * Message: Incoming
  * Type: Query
  */
+export function createVideoPlayerElement() {
+  const videoElement = document.createElement('video')
+  videoElement.style.width = '100%'
+  videoElement.style.height = '100%'
+
+  return videoElement
+}
+
+/**
+ * Message: Outgoing
+ * Type: Command
+ */
+export function applyAutoPlayAttributesToVideoElement(videoElement) {
+  videoElement.setAttribute('autoplay', 'true')
+  videoElement.setAttribute('muted', 'true')
+}
+
+/**
+ * Message: Outgoing
+ * Type: Command
+ */
+export function applyControlAttributesToVideoElement(videoElement) {
+  videoElement.setAttribute('controls', 'true')
+}
+
+/**
+ * Message: Incoming
+ * Type: Query
+ */
 export function detectNativeVideoPlaybackSupport(videoType, videoElement) {
   const isHlsSupportedNatively = videoElement.canPlayType('application/vnd.apple.mpegurl')
   const isVideoTypeProgressive = videoType === 'mp4'
@@ -89,9 +87,17 @@ export function detectHlsVideoPlaybackSupport(videoType, HlsUtils) {
 // Note that we don't have an example of an Incoming Command but
 // we could represent that here as a registry of some kind
 
-class VideoElementRegistry {
+export class VideoElementRegistry {
   constructor() {
-    this.registry = {}
+    this._registry = {}
+  }
+
+  get registry() {
+    return this._registry
+  }
+
+  set registry(registry) {
+    this._registry = registry
   }
 
   /**
@@ -99,7 +105,15 @@ class VideoElementRegistry {
    * Type: Command
    */
   addVideoElement(uuid, element) {
-    this.registry[uuid] = element
+    this._registry[uuid] = element
+  }
+
+  /**
+   * Message: Incoming
+   * Type: Query
+   */
+  getVideoElement(uuid) {
+    return this._registry[uuid]
   }
 
   /**
@@ -107,12 +121,14 @@ class VideoElementRegistry {
    * Type: Command
    */
   removeVideoElement(uuid) {
-    delete this.registry[uuid]
+    delete this._registry[uuid]
   }
-}
 
-const VideoElementRegistrySingleton = new VideoElementRegistry()
-
-export {
-  VideoElementRegistrySingleton as VideoElementRegistry
+  /**
+   * Message: Incoming
+   * Type: Command 
+   */
+  clear() {
+    this._registry = {}
+  }
 }
